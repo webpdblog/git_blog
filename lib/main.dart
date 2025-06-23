@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'first_post_page.dart';
 
 void main() {
   runApp(const MyBlogApp());
@@ -10,45 +11,81 @@ class MyBlogApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: '블로그',
+      title: '재미있는 블로그',
       theme: ThemeData(primarySwatch: Colors.blue),
       home: const BlogHomePage(),
+      routes: {
+        '/first': (context) => LadderGamePage(), // 수정: FirstPostPage → LadderGamePage
+      },
     );
   }
 }
 
+// ...existing code...
 class BlogHomePage extends StatelessWidget {
   const BlogHomePage({super.key});
 
-  // 예시 게시글 데이터
   final List<Map<String, String>> posts = const [
     {
-      'title': '첫 번째 글',
-      'summary': '이것은 첫 번째 블로그 글의 요약입니다.',
+      'title': '식사내기 사다리 게임',
+      'summary': '식사내기 사다리 게임입니다. ',
       'date': '2025-06-23',
     },
-    {'title': '두 번째 글', 'summary': '두 번째 글의 간단한 설명입니다.', 'date': '2025-06-20'},
-    {'title': '세 번째 글', 'summary': '세 번째 글의 요약입니다.', 'date': '2025-06-15'},
+    // 필요시 다른 글 추가
   ];
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('블로그')),
+      appBar: AppBar(title: const Text('재미있는 블로그')),
       body: ListView.builder(
         padding: const EdgeInsets.all(16),
         itemCount: posts.length,
         itemBuilder: (context, index) {
           final post = posts[index];
           return Card(
-            margin: const EdgeInsets.symmetric(vertical: 8),
-            child: ListTile(
-              title: Text(post['title']!),
-              subtitle: Text(post['summary']!),
-              trailing: Text(post['date']!),
-              onTap: () {
-                // 상세 페이지로 이동하는 코드 추가 가능
-              },
+            margin: const EdgeInsets.symmetric(vertical: 12, horizontal: 8),
+            elevation: 4,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(16),
+            ),
+            child: InkWell(
+              borderRadius: BorderRadius.circular(16),
+              onTap: () => Navigator.pushNamed(context, '/first'),
+              child: Padding(
+                padding: const EdgeInsets.all(24),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      post['title']!,
+                      style: const TextStyle(
+                        fontSize: 22,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    const SizedBox(height: 8),
+                    Text(
+                      post['summary']!,
+                      style: const TextStyle(
+                        fontSize: 16,
+                        color: Colors.black87,
+                      ),
+                    ),
+                    const SizedBox(height: 12),
+                    Align(
+                      alignment: Alignment.bottomRight,
+                      child: Text(
+                        post['date']!,
+                        style: const TextStyle(
+                          fontSize: 13,
+                          color: Colors.grey,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
             ),
           );
         },
@@ -56,3 +93,4 @@ class BlogHomePage extends StatelessWidget {
     );
   }
 }
+// ...existing code...
